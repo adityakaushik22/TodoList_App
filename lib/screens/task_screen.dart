@@ -1,42 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todoey/screens/add_task_screen.dart';
-
-import '../models/task.dart';
+import '../models/task_data.dart';
 import '../widgets/task_list.dart';
 
-class TasksScreen extends StatefulWidget {
-  const TasksScreen({super.key});
-
-  @override
-  State<TasksScreen> createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
-  List<Task> tasks = [
-    Task(name: 'buy milk'),
-    Task(name: 'buy fruits'),
-    Task(name: 'hello')
-  ];
-
+class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
-              context: context,
-              builder: (context) => AddTaskScreen(
-                    // addTaskcallBack: (newText) {
-                    //   print(newText);
-                    // },
-                    addTaskcallBack: (newtext) {
-                      setState(() {
-                        tasks.add(Task(name: newtext));
-                      });
-                      Navigator.pop(
-                          context); // to dismiss the add menu after touching the button.
-                    },
-                  ));
+              context: context, builder: (context) => AddTaskScreen());
         },
         backgroundColor: Colors.lightBlueAccent,
         child: Icon(Icons.add),
@@ -53,9 +28,9 @@ class _TasksScreenState extends State<TasksScreen> {
               children: [
                 CircleAvatar(
                   child: Icon(
-                    Icons.list,
+                    Icons.lightbulb_sharp,
                     size: 30.0,
-                    color: Colors.lightBlueAccent,
+                    color: Colors.blue,
                   ),
                   backgroundColor: Colors.white,
                   radius: 30.0,
@@ -71,11 +46,24 @@ class _TasksScreenState extends State<TasksScreen> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+                SizedBox(
+                  height: 5,
+                ),
                 Text(
-                  '${tasks.length} Tasks',
+                  "Created By Aditya♥",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 20),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 20,
                   ),
                 ),
               ],
@@ -91,7 +79,7 @@ class _TasksScreenState extends State<TasksScreen> {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20)),
               ),
-              child: TasksList(tasks: tasks),
+              child: TasksList(),
             ),
           )
         ],
