@@ -1,4 +1,4 @@
-# ToDoLisy
+# ToDoList
 
 A Flutter project.
 
